@@ -66,9 +66,9 @@
                                         <p class="px-2">اهلا بك , يرجى تسجيل الدخول. </p>
                                         <div class="card-content">
                                             <div class="card-body pt-1">
-                                                <form action="index.html">
+                                                <form method="post" enctype="multipart/form-data">
                                                     <fieldset class="form-label-group form-group position-relative has-icon-left">
-                                                        <input type="text" class="form-control" id="user-name" placeholder="اسم المستخدم" required>
+                                                        <input type="text" class="form-control" id="user-name" name="name" placeholder="اسم المستخدم" required>
                                                         <div class="form-control-position">
                                                             <i class="feather icon-user"></i>
                                                         </div>
@@ -76,14 +76,14 @@
                                                     </fieldset>
 
                                                     <fieldset class="form-label-group position-relative has-icon-left">
-                                                        <input type="password" class="form-control" id="user-password" placeholder="الرمز السري" required>
+                                                        <input type="password" class="form-control" id="user-password" name="password" placeholder="الرمز السري" required>
                                                         <div class="form-control-position">
                                                             <i class="feather icon-lock"></i>
                                                         </div>
                                                         <label for="user-password">الرمز السري</label>
                                                     </fieldset>
 
-                                                    <button type="submit" class="btn btn-primary float-right btn-inline" style="width:350px">تسجيل</button>
+                                                    <button type="submit" class="btn btn-primary float-right btn-inline" name="submit" style="width:350px">تسجيل</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -104,6 +104,37 @@
             </div>
         </div>
     </div>
+
+    <?php
+
+    require 'connect.php';
+    if (isset($link)) {
+        if (isset($_POST['submit'])) {
+            $name = $link->real_escape_string($_POST['name']);
+            $password = $link->real_escape_string($_POST['password']);
+            $password = md5($password);
+
+
+            try {
+                $query = "SELECT * FROM users WHERE Name = '$name' AND Password = '$password'";
+                $userResult = mysqli_query($link, $query);
+                $rows = mysqli_num_rows($userResult);
+                echo $rows . $query;
+            } catch (Exception $e) {
+                echo $e;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    ?>
     <!-- END: Content-->
 
 

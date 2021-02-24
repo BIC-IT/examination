@@ -1,3 +1,15 @@
+<?php
+ob_start();
+session_start();
+
+if (isset($_SESSION['is_logged'])) {
+    if ($_SESSION['is_logged'] == true) {
+        echo "true";
+        header('Location: File/index.php');
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="rtl">
 <!-- BEGIN: Head-->
@@ -66,7 +78,7 @@
                                         <p class="px-2">اهلا بك , يرجى تسجيل الدخول. </p>
                                         <div class="card-content">
                                             <div class="card-body pt-1">
-                                                <form method="post" enctype="multipart/form-data">
+                                                <form method="post" action="login.php" enctype="multipart/form-data">
                                                     <fieldset class="form-label-group form-group position-relative has-icon-left">
                                                         <input type="text" class="form-control" id="user-name" name="name" placeholder="اسم المستخدم" required>
                                                         <div class="form-control-position">
@@ -106,25 +118,6 @@
     </div>
 
     <?php
-
-    require 'connect.php';
-    if (isset($link)) {
-        if (isset($_POST['submit'])) {
-            $name = $link->real_escape_string($_POST['name']);
-            $password = $link->real_escape_string($_POST['password']);
-            $password = md5($password);
-
-
-            try {
-                $query = "SELECT * FROM users WHERE Name = '$name' AND Password = '$password'";
-                $userResult = mysqli_query($link, $query);
-                $rows = mysqli_num_rows($userResult);
-                echo $rows . $query;
-            } catch (Exception $e) {
-                echo $e;
-            }
-        }
-    }
 
 
 
